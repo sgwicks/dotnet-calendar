@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
+using CalendarDataAccess.Models;
 
-namespace CalendarDataAccess;
+namespace CalendarDataAccess.DataAccess;
 
 public class UsersDataAccess: CalendarDataAccess
 {
@@ -26,11 +27,13 @@ public class UsersDataAccess: CalendarDataAccess
     return results.First();
   }
 
-  public Task CreateUser(UserModel user)
+  public async Task<UserModel> CreateUser(UserModel user)
   {
     var usersCollection = UsersCollection();
 
-    return usersCollection.InsertOneAsync(user);
+    await usersCollection.InsertOneAsync(user);
+
+    return user;
   }
 
   public Task UpdateUser(UserModel user)

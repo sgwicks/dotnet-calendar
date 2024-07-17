@@ -1,7 +1,5 @@
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using CalendarDataAccess;
+using CalendarDataAccess.DataAccess;
+using CalendarDataAccess.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,25 +17,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-string connectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING") ?? "mongodb://mongo:27017";
-string databaseName  ="calendar_db";
-string collectionName = "calendar";
+// USERS ENDPOINTS
+UsersDataAccess usersCollection = new();
 
-var client = new MongoClient(connectionString);
-var db = client.GetDatabase(databaseName);
-var collection = db.GetCollection<UserModel>(collectionName);
+app.MapGet("/users", usersCollection.GetAllUsers)
+.WithName("GetAllUsers")
+.WithOpenApi();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", async () =>
-{
-    var forecast = await collection.FindAsync(_ => true);
-    return forecast.ToList();
-})
-.WithName("GetWeatherForecast")
+app.MapPost("/users", usersCollection.CreateUser)
+.WithName("CreateUser")
 .WithOpenApi();
 
 app.Run();

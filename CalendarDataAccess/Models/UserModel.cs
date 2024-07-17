@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace CalendarDataAccess;
+namespace CalendarDataAccess.Models;
 
 public class UserModel
 {

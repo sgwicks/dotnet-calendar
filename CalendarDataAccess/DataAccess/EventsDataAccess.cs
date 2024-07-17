@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
+using CalendarDataAccess.Models;
 
-namespace CalendarDataAccess;
+namespace CalendarDataAccess.DataAccess;
 
 public class EventsDataAccess: CalendarDataAccess
 {

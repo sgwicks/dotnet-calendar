@@ -1,6 +1,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using CalendarDataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +20,12 @@ if (app.Environment.IsDevelopment())
 }
 
 string connectionString = Environment.GetEnvironmentVariable("MONGODB_CONNECTION_STRING") ?? "mongodb://mongo:27017";
-string databaseName  ="weather_db";
-string collectionName = "weather";
+string databaseName  ="calendar_db";
+string collectionName = "calendar";
 
 var client = new MongoClient(connectionString);
 var db = client.GetDatabase(databaseName);
-var collection = db.GetCollection<WeatherForecast>(collectionName);
+var collection = db.GetCollection<UserModel>(collectionName);
 
 var summaries = new[]
 {
@@ -40,12 +41,3 @@ app.MapGet("/weatherforecast", async () =>
 .WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string Id { get; set; } = string.Empty;
-
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

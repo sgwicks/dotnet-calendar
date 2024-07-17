@@ -1,0 +1,17 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  dotnetcalendar:
+    image: dotnetcalendar
+    build:
+      context: .
+      dockerfile: DotnetCalendar/Dockerfile
+    ports:
+      - 5199:5199
+    environment:
+      - MONGODB_CONNECTION_STRING=mongodb://mongo:27017
+  mongo:
+    image: mongo
+    restart: always

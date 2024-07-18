@@ -26,7 +26,7 @@ app.MapGet("/users", usersCollection.GetAllUsers)
 .WithOpenApi();
 
 app.MapGet("/users/{id}", usersCollection.GetUserById)
-.WithName("GetUserByUsername")
+.WithName("GetUserById")
 .WithOpenApi();
 
 app.MapPost("/users", usersCollection.CreateUser)
@@ -42,6 +42,31 @@ app.MapDelete("/users", async ([FromBody] UserModel user) => {
     return Results.NoContent();
 })
 .WithName("DeleteUser")
+.WithOpenApi();
+
+EventsDataAccess eventsCollection = new();
+
+app.MapGet("/events", eventsCollection.GetAllEvents)
+.WithName("GetAllEvents")
+.WithOpenApi();
+
+app.MapGet("/events/{id}", eventsCollection.GetEventById)
+.WithName("GetEventById")
+.WithOpenApi();
+
+app.MapPost("/events", eventsCollection.CreateEvent)
+.WithName("CreateEvent")
+.WithOpenApi();
+
+app.MapPatch("/events", eventsCollection.UpdateEvent)
+.WithName("UpdateEvent")
+.WithOpenApi();
+
+app.MapDelete("/events", async ([FromBody] EventModel user) => {
+    await eventsCollection.DeleteEvent(user);
+    return Results.NoContent();
+})
+.WithName("DeleteEvent")
 .WithOpenApi();
 
 app.Run();

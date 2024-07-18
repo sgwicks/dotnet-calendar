@@ -27,25 +27,31 @@ public class EventsDataAccess: CalendarDataAccess
     return results.First();
   }
 
-  public Task CreateEvent(EventModel Event)
+  public async Task<EventModel> CreateEvent(EventModel calendarEvent)
   {
     var eventsCollection = EventsCollection();
 
-    return eventsCollection.InsertOneAsync(Event);
+    await eventsCollection.InsertOneAsync(calendarEvent);
+
+    return calendarEvent;
   }
 
-  public Task UpdateEvent(EventModel Event)
+  public async Task<EventModel> UpdateEvent(EventModel calendarEvent)
   {
     var eventsCollection = EventsCollection();
-    var filter = Builders<EventModel>.Filter.Eq("Id", Event.Id);
+    var filter = Builders<EventModel>.Filter.Eq("Id", calendarEvent.Id);
 
-    return eventsCollection.ReplaceOneAsync(filter, Event, new ReplaceOptions { IsUpsert = true });
+    await eventsCollection.ReplaceOneAsync(filter, calendarEvent, new ReplaceOptions { IsUpsert = true });
+
+    return calendarEvent;
   }
 
-  public Task DeleteEvent(EventModel Event)
+  public async Task DeleteEvent(EventModel calendarEvent)
   {
     var eventsCollection = EventsCollection();
 
-    return eventsCollection.DeleteOneAsync(u => u.Id == Event.Id);
+    await eventsCollection.DeleteOneAsync(u => u.Id == calendarEvent.Id);
+
+    return;
   }
 }

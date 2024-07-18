@@ -19,10 +19,10 @@ public class EventsDataAccess: CalendarDataAccess
     return results.ToList();
   }
 
-  public async Task<EventModel> GetEventByTitle(string title)
+  public async Task<EventModel> GetEventById(string id)
   {
     var eventsCollection = EventsCollection();
-    var results = await eventsCollection.FindAsync(u => u.Title == title);
+    var results = await eventsCollection.FindAsync(u => u.Id == id);
 
     return results.First();
   }

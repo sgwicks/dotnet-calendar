@@ -1,5 +1,6 @@
 using CalendarDataAccess.DataAccess;
 using CalendarDataAccess.Models;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,8 +25,23 @@ app.MapGet("/users", usersCollection.GetAllUsers)
 .WithName("GetAllUsers")
 .WithOpenApi();
 
+app.MapGet("/users/{id}", usersCollection.GetUserById)
+.WithName("GetUserByUsername")
+.WithOpenApi();
+
 app.MapPost("/users", usersCollection.CreateUser)
 .WithName("CreateUser")
+.WithOpenApi();
+
+app.MapPatch("/users", usersCollection.UpdateUser)
+.WithName("UpdateUser")
+.WithOpenApi();
+
+app.MapDelete("/users", async ([FromBody] UserModel user) => {
+    await usersCollection.DeleteUser(user);
+    return Results.NoContent();
+})
+.WithName("DeleteUser")
 .WithOpenApi();
 
 app.Run();

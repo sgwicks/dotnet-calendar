@@ -19,10 +19,10 @@ public class UsersDataAccess: CalendarDataAccess
     return results.ToList();
   }
 
-  public async Task<UserModel> GetUserByUsername(string username)
+  public async Task<UserModel> GetUserById(string id)
   {
     var usersCollection = UsersCollection();
-    var results = await usersCollection.FindAsync(u => u.Username == username);
+    var results = await usersCollection.FindAsync(u => u.Id == id);
 
     return results.First();
   }
@@ -36,18 +36,22 @@ public class UsersDataAccess: CalendarDataAccess
     return user;
   }
 
-  public Task UpdateUser(UserModel user)
+  public async Task<UserModel> UpdateUser(UserModel user)
   {
     var usersCollection = UsersCollection();
     var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
 
-    return usersCollection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+    await usersCollection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+    
+    return user; 
   }
 
-  public Task DeleteUser(UserModel user)
+  public async Task DeleteUser(UserModel user)
   {
     var usersCollection = UsersCollection();
 
-    return usersCollection.DeleteOneAsync(u => u.Id == user.Id);
+    await usersCollection.DeleteOneAsync(u => u.Id == user.Id);
+
+    return;
   }
 }

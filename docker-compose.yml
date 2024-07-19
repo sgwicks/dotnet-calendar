@@ -20,6 +20,9 @@ services:
         - action: sync
           path: ./react-calendar/src
           target: /usr/src/app/src
+        - action: rebuild
+          path: ./react-calendar/package.json
+          target: /usr/src/app/package.json
   mongo:
     image: mongo
     restart: always

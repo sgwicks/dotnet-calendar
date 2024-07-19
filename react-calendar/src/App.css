@@ -7,4 +7,32 @@
 
 main {
 	display: flex;
+	width: 100vw;
+	max-width: 100%;
+}
+
+.day {
+	width: 15%;
+	text-transform: capitalize;
+	display: flex;
+	flex-direction: column;
+}
+
+.day h2 {
+	margin: 0;
+	padding: 0;
+	height: 32px;
+}
+
+.hour {
+	height: 32px;
+}
+
+.cell {
+	width: 100%;
+	border: 1px solid #aaa;
+}
+
+.today {
+	background-color: lavender;
 }

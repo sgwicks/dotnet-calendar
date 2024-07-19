@@ -7,3 +7,5 @@ An incredibly low effort, Minimal API in Dotnet for a related React Calendar App
 - Request validation
 - Hash passwords
 - Error handling
+
+## React Calendar

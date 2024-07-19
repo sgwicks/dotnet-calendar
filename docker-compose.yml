@@ -12,6 +12,13 @@ services:
       - 5199:5199
     environment:
       - MONGODB_CONNECTION_STRING=mongodb://mongo:27017
+  reactcalendar:
+    image: reactcalendar
+    build:
+      context: ./react-calendar
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
   mongo:
     image: mongo
     restart: always

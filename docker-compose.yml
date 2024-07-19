@@ -6,7 +6,7 @@ services:
   dotnetcalendar:
     image: dotnetcalendar
     build:
-      context: .
+      context: ./dotnet-calendar
       dockerfile: DotnetCalendar/Dockerfile
     ports:
       - 5199:5199

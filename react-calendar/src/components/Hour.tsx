@@ -14,8 +14,8 @@ const Hour: FunctionComponent<{
 
 	return (
 		<div className="hour cell">
-			{hoursEvents.map((e) => (
-				<CalendarEvent calendarEvent={mappedEvent} />
+			{hoursEvents.map(() => (
+				<CalendarEvent calendarEvent={mappedEvent} key={mappedEvent.id} />
 			))}
 		</div>
 	)

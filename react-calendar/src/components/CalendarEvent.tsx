@@ -8,7 +8,6 @@ interface CalendarEventInterface extends APICalendarEvent {
 const CalendarEvent: FunctionComponent<{
 	calendarEvent: CalendarEventInterface
 }> = ({ calendarEvent }) => {
-	console.log(calendarEvent.height)
 	return (
 		<div
 			className="calendar-event"

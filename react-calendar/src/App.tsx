@@ -1,7 +1,9 @@
 import './App.css'
 import Day from './components/Day'
-import { isSameDay, isToday, setDay } from 'date-fns'
-import { useAppSelector } from './app/hooks'
+import { endOfDay, isSameDay, isToday, setDay, startOfDay } from 'date-fns'
+import { calendarEventsApiSlice } from './features/calendarEvents/calendarEventsSlice'
+
+const { useFetchEventsQuery } = calendarEventsApiSlice
 
 function App() {
 	const hours = Array(24).fill(0)
@@ -17,9 +19,14 @@ function App() {
 		setDay(today, 7)
 	]
 
-	const events: APICalendarEvent[] = useAppSelector(
-		(state) => state.calendarEvents.calendarEvents
-	)
+	const {
+		data = [],
+		isFetching,
+		refetch
+	} = useFetchEventsQuery({
+		start: startOfDay(days[0]).toISOString(),
+		end: endOfDay(days[6]).toISOString()
+	})
 
 	return (
 		<main>
@@ -27,15 +34,24 @@ function App() {
 				<div className="hour cell"></div>
 				{hours.map((h, i) => {
 					h = i < 10 ? `0${i}:00` : `${i}:00`
-					return <div className="hour cell">{h}</div>
+					return (
+						<div className="hour cell" key={h}>
+							{h}
+						</div>
+					)
 				})}
 			</div>
 			{days.map((day) => {
-				const todaysEvents: APICalendarEvent[] = events.filter((e) =>
-					isSameDay(e.start, day)
-				)
+				const todaysEvents: APICalendarEvent[] = data.filter((e) => {
+					return isSameDay(e.start, day)
+				})
 				return (
-					<Day day={day} isToday={isToday(day)} todaysEvents={todaysEvents} />
+					<Day
+						day={day}
+						isToday={isToday(day)}
+						todaysEvents={todaysEvents}
+						key={day.getDate()}
+					/>
 				)
 			})}
 		</main>

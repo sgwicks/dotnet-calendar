@@ -11,11 +11,51 @@ main {
 	max-width: 100%;
 }
 
+.calendar-grid {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(25, 45px);
+	width: 100%;
+	grid-template-areas:
+		'0-h mon-h tue-h wed-h thu-h fri-h sat-h sun-h'
+		'0-0 mon-0 tue-0 wed-0 thu-0 fri-0 sat-0 sun-0'
+		'0-1 mon-1 tue-1 wed-1 thu-1 fri-1 sat-1 sun-1'
+		'0-2 mon-2 tue-2 wed-2 thu-2 fri-2 sat-2 sun-2'
+		'0-3 mon-3 tue-3 wed-3 thu-3 fri-3 sat-3 sun-3'
+		'0-4 mon-4 tue-4 wed-4 thu-4 fri-4 sat-4 sun-4'
+		'0-5 mon-5 tue-5 wed-5 thu-5 fri-5 sat-5 sun-5'
+		'0-6 mon-6 tue-6 wed-6 thu-6 fri-6 sat-6 sun-6'
+		'0-7 mon-7 tue-7 wed-7 thu-7 fri-7 sat-7 sun-7'
+		'0-8 mon-8 tue-8 wed-8 thu-8 fri-8 sat-8 sun-8'
+		'0-9 mon-9 tue-9 wed-9 thu-9 fri-9 sat-9 sun-9'
+		'0-10 mon-10 tue-10 wed-10 thu-10 fri-10 sat-10 sun-10'
+		'0-11 mon-11 tue-11 wed-11 thu-11 fri-11 sat-11 sun-11'
+		'0-12 mon-12 tue-12 wed-12 thu-12 fri-12 sat-12 sun-12'
+		'0-13 mon-13 tue-13 wed-13 thu-13 fri-13 sat-13 sun-13'
+		'0-14 mon-14 tue-14 wed-14 thu-14 fri-14 sat-14 sun-14'
+		'0-15 mon-15 tue-15 wed-15 thu-15 fri-15 sat-15 sun-15'
+		'0-16 mon-16 tue-16 wed-16 thu-16 fri-16 sat-16 sun-16'
+		'0-17 mon-17 tue-17 wed-17 thu-17 fri-17 sat-17 sun-17'
+		'0-18 mon-18 tue-18 wed-18 thu-18 fri-18 sat-18 sun-18'
+		'0-19 mon-19 tue-19 wed-19 thu-19 fri-19 sat-19 sun-19'
+		'0-20 mon-20 tue-20 wed-20 thu-20 fri-20 sat-20 sun-20'
+		'0-21 mon-21 tue-21 wed-21 thu-21 fri-21 sat-21 sun-21'
+		'0-22 mon-22 tue-22 wed-22 thu-22 fri-22 sat-22 sun-22'
+		'0-23 mon-23 tue-23 wed-23 thu-23 fri-23 sat-23 sun-23'
+		'0-24 mon-24 tue-24 wed-24 thu-24 fri-24 sat-24 sun-24';
+}
+
+.mon {
+	grid-area: mon;
+	background-color: aqua;
+}
+
 .day {
 	width: 15%;
 	text-transform: capitalize;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 }
 
 .day h2 {

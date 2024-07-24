@@ -1,6 +1,6 @@
 import './App.css'
 import Day from './components/Day'
-import { isSameDay, isToday, setDay } from 'date-fns'
+import { isSameDay, isToday, setDay, format } from 'date-fns'
 import { useAppSelector } from './app/hooks'
 
 function App() {
@@ -23,21 +23,40 @@ function App() {
 
 	return (
 		<main>
-			<div>
-				<div className="hour cell"></div>
+			<section className="calendar-grid">
+				<div className="cell" style={{ gridArea: '0-0' }}></div>
 				{hours.map((h, i) => {
 					h = i < 10 ? `0${i}:00` : `${i}:00`
-					return <div className="hour cell">{h}</div>
+					return (
+						<div className="cell" style={{ gridArea: `0-${i}` }} key={`0-${i}`}>
+							{h}
+						</div>
+					)
 				})}
-			</div>
-			{days.map((day) => {
-				const todaysEvents: APICalendarEvent[] = events.filter((e) =>
-					isSameDay(e.start, day)
-				)
-				return (
-					<Day day={day} isToday={isToday(day)} todaysEvents={todaysEvents} />
-				)
-			})}
+
+				{days.map((day) => {
+					const dayName = format(day, 'eee').toLowerCase()
+
+					return (
+						<>
+							<div
+								className="cell"
+								style={{ gridArea: `${dayName}-h` }}
+								key={`${dayName}-h`}
+							>
+								{format(day, 'eee do MMM')}
+							</div>
+							{hours.map((h, i) => (
+								<div
+									className="cell"
+									style={{ gridArea: `${dayName}-${i}` }}
+									key={`${dayName}-${i}`}
+								></div>
+							))}
+						</>
+					)
+				})}
+			</section>
 		</main>
 	)
 }

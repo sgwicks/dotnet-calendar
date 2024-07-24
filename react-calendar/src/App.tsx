@@ -1,6 +1,7 @@
 import './App.css'
 import Day from './components/Day'
 import { isSameDay, isToday, setDay } from 'date-fns'
+import { useAppSelector } from './app/hooks'
 
 function App() {
 	const hours = Array(24).fill(0)
@@ -16,24 +17,9 @@ function App() {
 		setDay(today, 7)
 	]
 
-	const events: APICalendarEvent[] = [
-		{
-			id: 'abcd-efg',
-			title: 'meeting with Jeff',
-			description: 'Lets sit down and have a chat',
-			start: '2024-07-23 11:00:00+0100',
-			end: '2024-07-23 12:00:00+0100',
-			tier: 0
-		},
-		{
-			id: '1234-567',
-			title: 'meeting with Geoff',
-			description: 'Stand up',
-			start: '2024-07-24 12:30:00+0100',
-			end: '2024-07-24 13:00:00+0100',
-			tier: 0
-		}
-	]
+	const events: APICalendarEvent[] = useAppSelector(
+		(state) => state.calendarEvents.calendarEvents
+	)
 
 	return (
 		<main>

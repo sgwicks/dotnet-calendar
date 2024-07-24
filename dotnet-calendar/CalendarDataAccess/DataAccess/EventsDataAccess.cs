@@ -11,10 +11,12 @@ public class EventsDataAccess: CalendarDataAccess
   }
 
   // Events CRUD
-  public async Task<List<EventModel>> GetAllEvents()
+  public async Task<List<EventModel>> GetAllEvents(string? start, string? end)
   {
+    DateTime dateStart = start is not null ? DateTime.Parse(start) : DateTime.Now.AddDays(-7);
+    DateTime dateEnd = end is not null ? DateTime.Parse(end) : DateTime.Now.AddDays(7);
     var eventsCollection = EventsCollection();
-    var results = await eventsCollection.FindAsync(_ => true);
+    var results = await eventsCollection.FindAsync(e => e.Start >= dateStart && e.End <= dateEnd);
 
     return results.ToList();
   }

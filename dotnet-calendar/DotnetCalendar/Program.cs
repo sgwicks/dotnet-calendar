@@ -47,7 +47,11 @@ app.MapDelete("/users", async ([FromBody] UserModel user) => {
 
 EventsDataAccess eventsCollection = new();
 
-app.MapGet("/events", eventsCollection.GetAllEvents)
+app.MapGet("/events", (
+    [FromQuery] string? start,
+    [FromQuery] string? end) 
+    => eventsCollection.GetAllEvents(start, end)
+)
 .WithName("GetAllEvents")
 .WithOpenApi();
 

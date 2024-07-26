@@ -12,6 +12,7 @@ export const calendarEventsApiSlice = createApi({
 	baseQuery: fetchBaseQuery({
 		baseUrl: 'http://localhost:5199'
 	}),
+	tagTypes: ['CalendarEvents'],
 	endpoints(builder) {
 		return {
 			fetchEvents: builder.query<
@@ -20,7 +21,21 @@ export const calendarEventsApiSlice = createApi({
 			>({
 				query({ start, end }) {
 					return `/events?start=${start}&end=${end}`
-				}
+				},
+				providesTags: ['CalendarEvents']
+			}),
+			createEvent: builder.mutation<
+				APICalendarEvent,
+				Omit<APICalendarEvent, 'id'>
+			>({
+				query(body) {
+					return {
+						url: 'events',
+						method: 'post',
+						body
+					}
+				},
+				invalidatesTags: ['CalendarEvents']
 			})
 		}
 	}

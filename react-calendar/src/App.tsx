@@ -1,5 +1,6 @@
 import './App.css'
 import Day from './components/Day'
+import CreateCalendarEventForm from './features/calendarEvents/CreateCalendarEventForm'
 import { endOfDay, isSameDay, isToday, setDay, startOfDay } from 'date-fns'
 import { calendarEventsApiSlice } from './features/calendarEvents/calendarEventsSlice'
 
@@ -30,30 +31,35 @@ function App() {
 
 	return (
 		<main>
-			<div>
-				<div className="hour cell"></div>
-				{hours.map((h, i) => {
-					h = i < 10 ? `0${i}:00` : `${i}:00`
+			<section className="calendar">
+				<div>
+					<div className="hour cell"></div>
+					{hours.map((h, i) => {
+						h = i < 10 ? `0${i}:00` : `${i}:00`
+						return (
+							<div className="hour cell" key={h}>
+								{h}
+							</div>
+						)
+					})}
+				</div>
+				{days.map((day) => {
+					const todaysEvents: APICalendarEvent[] = data.filter((e) => {
+						return isSameDay(e.start, day)
+					})
 					return (
-						<div className="hour cell" key={h}>
-							{h}
-						</div>
+						<Day
+							day={day}
+							isToday={isToday(day)}
+							todaysEvents={todaysEvents}
+							key={day.getDate()}
+						/>
 					)
 				})}
-			</div>
-			{days.map((day) => {
-				const todaysEvents: APICalendarEvent[] = data.filter((e) => {
-					return isSameDay(e.start, day)
-				})
-				return (
-					<Day
-						day={day}
-						isToday={isToday(day)}
-						todaysEvents={todaysEvents}
-						key={day.getDate()}
-					/>
-				)
-			})}
+			</section>
+			<section className="create-event">
+				<CreateCalendarEventForm />
+			</section>
 		</main>
 	)
 }

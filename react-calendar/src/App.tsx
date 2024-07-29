@@ -1,8 +1,10 @@
 import './App.css'
 import Day from './components/Day'
 import CreateCalendarEventForm from './features/calendarEvents/CreateCalendarEventForm'
+import UpdateCalendarEventForm from './features/calendarEvents/UpdateCalenderEventForm'
 import { endOfDay, isSameDay, isToday, setDay, startOfDay } from 'date-fns'
 import { calendarEventsApiSlice } from './features/calendarEvents/calendarEventsSlice'
+import { useAppSelector } from './app/hooks'
 
 const { useFetchEventsQuery } = calendarEventsApiSlice
 
@@ -20,14 +22,12 @@ function App() {
 		setDay(today, 7)
 	]
 
-	const {
-		data = [],
-		isFetching,
-		refetch
-	} = useFetchEventsQuery({
+	const { data = [] } = useFetchEventsQuery({
 		start: startOfDay(days[0]).toISOString(),
 		end: endOfDay(days[6]).toISOString()
 	})
+
+	const id = useAppSelector((state) => state.calendarEvents.currentSelection)
 
 	return (
 		<main>
@@ -57,8 +57,11 @@ function App() {
 					)
 				})}
 			</section>
-			<section className="create-event">
+			<section className="create event-form-wrapper">
 				<CreateCalendarEventForm />
+			</section>
+			<section className="edit event-form-wrapper">
+				{id && <UpdateCalendarEventForm id={id} />}
 			</section>
 		</main>
 	)

@@ -1,10 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const initialState: {
-	calendarEvents: APICalendarEvent[]
+	currentSelection: string | null
 } = {
-	calendarEvents: []
+	currentSelection: null
 }
 
 export const calendarEventsApiSlice = createApi({
@@ -22,7 +22,13 @@ export const calendarEventsApiSlice = createApi({
 				query({ start, end }) {
 					return `/events?start=${start}&end=${end}`
 				},
-				providesTags: ['CalendarEvents']
+				providesTags: [{ type: 'CalendarEvents', id: 'index' }]
+			}),
+			fetchEventById: builder.query<APICalendarEvent, string>({
+				query(id) {
+					return `/events/${id}`
+				},
+				providesTags: (results, error, id) => [{ type: 'CalendarEvents', id }]
 			}),
 			createEvent: builder.mutation<
 				APICalendarEvent,
@@ -35,7 +41,20 @@ export const calendarEventsApiSlice = createApi({
 						body
 					}
 				},
-				invalidatesTags: ['CalendarEvents']
+				invalidatesTags: [{ type: 'CalendarEvents', id: 'index' }]
+			}),
+			updateEvent: builder.mutation<APICalendarEvent, APICalendarEvent>({
+				query(body) {
+					return {
+						url: 'events',
+						method: 'PATCH',
+						body
+					}
+				},
+				invalidatesTags: (results, error, { id }) => [
+					{ type: 'CalendarEvents', id: 'index' },
+					{ type: 'CalendarEvents', id }
+				]
 			})
 		}
 	}
@@ -44,7 +63,13 @@ export const calendarEventsApiSlice = createApi({
 const calendarEventsSlice = createSlice({
 	name: 'calendarEvents',
 	initialState,
-	reducers: {}
+	reducers: {
+		setCurrentSelection(state, action: PayloadAction<string | null>) {
+			state.currentSelection = action.payload
+		}
+	}
 })
+
+export const { setCurrentSelection } = calendarEventsSlice.actions
 
 export default calendarEventsSlice.reducer

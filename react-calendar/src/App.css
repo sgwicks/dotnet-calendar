@@ -6,8 +6,9 @@
 }
 
 main {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
 }
 
 form {
@@ -16,15 +17,17 @@ form {
 }
 
 .calendar {
+	grid-column: span 2;
 	display: flex;
 	width: 100vw;
 	max-width: 100%;
 }
 
 .day {
-	width: 15%;
 	text-transform: capitalize;
 	display: flex;
+	flex-grow: 1;
+	flex-basis: 100%;
 	flex-direction: column;
 }
 
@@ -63,4 +66,12 @@ form {
 	text-align: left;
 	overflow: hidden;
 	font-size: small;
+}
+
+.event-form-wrapper {
+	border: 1px solid #aaa;
+}
+
+.edit.event-form-wrapper {
+	margin-right: -2px;
 }

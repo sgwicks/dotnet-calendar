@@ -1,4 +1,6 @@
 import { FunctionComponent } from 'react'
+import { useAppDispatch } from '../app/hooks'
+import { setCurrentSelection } from '../features/calendarEvents/calendarEventsSlice'
 
 interface CalendarEventInterface extends APICalendarEvent {
 	top: number
@@ -8,6 +10,7 @@ interface CalendarEventInterface extends APICalendarEvent {
 const CalendarEvent: FunctionComponent<{
 	calendarEvent: CalendarEventInterface
 }> = ({ calendarEvent }) => {
+	const dispatch = useAppDispatch()
 	return (
 		<div
 			className="calendar-event"
@@ -15,6 +18,7 @@ const CalendarEvent: FunctionComponent<{
 				top: `${calendarEvent.top}px`,
 				height: `${calendarEvent.height}px`
 			}}
+			onClick={() => dispatch(setCurrentSelection(calendarEvent.id))}
 		>
 			<span>{calendarEvent.title}</span>
 			<span>{calendarEvent.description}</span>

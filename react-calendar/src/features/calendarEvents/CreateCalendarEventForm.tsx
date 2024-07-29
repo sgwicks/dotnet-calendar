@@ -4,26 +4,27 @@ import { calendarEventsApiSlice } from './calendarEventsSlice'
 
 const { useCreateEventMutation } = calendarEventsApiSlice
 
-const createCalendarEventType: z.ZodType<Omit<APICalendarEvent, 'id'>> = z
-	.object({
-		id: z.string(),
+const createCalendarEventType: z.ZodType<Omit<APICalendarEvent, 'id'>> =
+	z.object({
 		title: z.string(),
 		description: z.string(),
 		start: z.string(),
 		end: z.string(),
 		tier: z.number()
 	})
-	.omit({ id: true })
 
 const CreateCalendarEventForm: FunctionComponent = () => {
-	const [createEvent, result] = useCreateEventMutation()
+	const [createEvent] = useCreateEventMutation()
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		const formData = new FormData(e.currentTarget)
+		const formData = Object.fromEntries(new FormData(e.currentTarget))
 		const body = createCalendarEventType.parse({
-			...Object.fromEntries(formData),
-			tier: Number(formData.get('tier'))
+			title: formData['create-form-title'],
+			description: formData['create-form-description'],
+			start: formData['create-form-start'],
+			end: formData['create-form-end'],
+			tier: Number(formData['create-form-tier'])
 		})
 
 		createEvent(body)
@@ -31,25 +32,39 @@ const CreateCalendarEventForm: FunctionComponent = () => {
 	}
 	return (
 		<form onSubmit={handleSubmit}>
-			<label htmlFor="title">
+			<label htmlFor="create-form-title">
 				Title:
-				<input name="title" id="title" required />
+				<input name="create-form-title" id="create-form-title" required />
 			</label>
-			<label htmlFor="description">
+			<label htmlFor="create-form-description">
 				Description:
-				<textarea name="description" id="description" required />
+				<textarea
+					name="create-form-description"
+					id="create-form-description"
+					required
+				/>
 			</label>
-			<label htmlFor="start">
+			<label htmlFor="create-form-start">
 				Start:
-				<input type="datetime-local" name="start" id="start" required />
+				<input
+					type="datetime-local"
+					name="create-form-start"
+					id="create-form-start"
+					required
+				/>
 			</label>
-			<label htmlFor="end">
+			<label htmlFor="create-form-end">
 				End:
-				<input type="datetime-local" name="end" id="end" required />
+				<input
+					type="datetime-local"
+					name="create-form-end"
+					id="create-form-end"
+					required
+				/>
 			</label>
-			<label htmlFor="tier">
+			<label htmlFor="create-form-tier">
 				Tier:
-				<select name="tier" id="tier">
+				<select name="create-form-tier" id="create-form-tier">
 					<option>1</option>
 					<option>2</option>
 					<option>3</option>

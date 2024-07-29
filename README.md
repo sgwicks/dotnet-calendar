@@ -2,9 +2,25 @@
 
 A .NET Minimal API with a React Front End. With time, this may be updated (see TODO) but for now it's simple CRUD operations on User and Event Models in MongoDB, which relies on the front end doing most of the work and passing complete objects to the back end.
 
+## Running the app
+
+Make sure you've got Docker and Docker Compose installed: https://docs.docker.com/compose/install/
+
+```
+git clone https://github.com/sgwicks/dotnet-calendar.git
+cd dotnet-calendar
+docker compose up --build --watch
+```
+
+The `watch` flag requires Docker Compose version 2.22.0 and higher. You can run this without watch if you just want to see how it works without hot reloading React
+
 ## Architecture Choices
 
 The technology used for this app were mainly chosen for learning potential above all else. These are languages and frameworks I have a little exposure to, but not much, and I wanted to display some basic understanding of them for potential employers.
+
+### Docker
+
+Docker is something I've been meaning to learn for a long time. While this app doesn't necessarily convince me that I have "learned Docker", it's a step in the right direction. Dockerising this app allows me to work on it across multiple PCs without having to worry about which one has which setup (something that has been a nightmare in the past) and to spin the entire stack up in one go. That's what Docker is for, after all!
 
 ### .NET Minimal API
 
